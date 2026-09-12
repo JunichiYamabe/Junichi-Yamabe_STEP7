@@ -13,7 +13,7 @@ FROM users
 WHERE age < 30 AND gender = 'female';
 
 --設問４
-SELECT *
+SELECT product_name, price
 FROM products;
 
 --設問５
@@ -35,7 +35,7 @@ SELECT
     u.name, 
     COUNT(o.id) AS total_orders
 FROM users u
-JOIN orders o ON u.id = o.user_id
+LEFT JOIN orders o ON u.id = o.user_id
 GROUP BY u.name;
 
 --設問８
@@ -85,9 +85,10 @@ GROUP BY o.id, u.id, u.name
 HAVING COUNT(DISTINCT oi.product_id) >= 2;
 
 --設問13 テレビという商品を購入した全てのユーザー名
-SELECT u,users
+SELECT u.name
 FROM order_items oi
-JOIN users u ON oi.order_id = u.id
+JOIN orders o ON oi.order_id = o.id
+JOIN users u ON o.user_id = u.id
 JOIN products p ON oi.product_id = p.id
 WHERE p.product_name = 'テレビ';
 
